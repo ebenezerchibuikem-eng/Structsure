@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildScan AI — Know Before You Buy</title>
+  <meta name="description" content="BuildScan AI uses computer vision to give homebuyers a structural engineer in their pocket. From driveway snapshot to signed report in four steps." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:      #E8642A;
+      --orange-dark: #C44E18;
+      --orange-pale: #FEF0E8;
+      --dark:        #0F0F0F;
+      --dark2:       #1A1A1A;
+      --dark3:       #252525;
+      --gray:        #6B7280;
+      --gray-light:  #9CA3AF;
+      --border:      #E5E7EB;
+      --border-dark: rgba(255,255,255,0.1);
+      --white:       #FFFFFF;
+      --off-white:   #F9F9F7;
+      --cream:       #F5F2ED;
+      --font:        'Inter', system-ui, sans-serif;
+      --radius:      10px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--dark);
+      background: var(--white);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    .eyebrow {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gray); margin-bottom: 12px;
+      display: block;
+    }
+    .eyebrow-orange { color: var(--orange); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 22px; border-radius: 6px; font-size: 14px;
+      font-weight: 600; cursor: pointer; border: none;
+      transition: all 0.2s; font-family: var(--font);
+    }
+    .btn-orange  { background: var(--orange); color: #fff; }
+    .btn-orange:hover  { background: var(--orange-dark); transform: translateY(-1px); }
+    .btn-dark    { background: var(--dark); color: #fff; }
+    .btn-dark:hover    { background: #333; }
+    .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--dark); }
+    .btn-outline:hover { border-color: var(--dark); }
+    .btn-outline-dark { background: transparent; border: 1.5px solid var(--border-dark); color: #fff; }
+    .btn-outline-dark:hover { border-color: #fff; }
+    .btn-lg { padding: 13px 28px; font-size: 15px; border-radius: 7px; }
+
+    /* ══ NAV ══ */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1080px; margin: 0 auto; padding: 0 24px;
+      height: 58px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-weight: 800; font-size: 16px; letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px; }
+    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13.5px; font-weight: 500; color: var(--gray); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--dark); }
+    .nav-ctas { display: flex; gap: 10px; align-items: center; }
+
+    /* ══ HERO ══ */
+    .hero {
+      padding: 72px 24px 80px;
+      background: var(--white);
+    }
+    .hero-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: center;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 62px); font-weight: 900;
+      line-height: 1.04; letter-spacing: -2px; margin-bottom: 20px;
+    }
+    .hero h1 em { font-style: italic; color: var(--orange); display: block; }
+    .hero-sub {
+      font-size: 16px; color: var(--gray); line-height: 1.75;
+      margin-bottom: 32px; max-width: 460px;
+    }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+    .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+    .hero-stat-num { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .hero-stat-label { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+    /* hero visual — report card */
+    .hero-visual { position: relative; }
+    .report-card {
+      background: var(--dark); border-radius: 12px; padding: 22px;
+      color: #fff; box-shadow: 0 32px 64px rgba(0,0,0,0.2);
+    }
+    .report-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+    .report-card-title { font-size: 12px; font-weight: 700; color: var(--gray-light); text-transform: uppercase; letter-spacing: 0.08em; }
+    .report-card-score {
+      background: var(--orange); color: #fff; font-size: 26px; font-weight: 900;
+      width: 52px; height: 52px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; letter-spacing: -1px;
+    }
+    .report-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 12px;
+    }
+    .report-row:last-child { border: none; }
+    .report-label { color: #94A3B8; }
+    .report-val { font-weight: 600; color: #fff; }
+    .report-badge {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+    }
+    .badge-red { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+    .badge-yellow { background: rgba(234,179,8,0.15); color: #FDE047; }
+    .badge-green { background: rgba(34,197,94,0.15); color: #86EFAC; }
+    .hero-float {
+      position: absolute; bottom: -16px; right: -16px;
+      background: #fff; border-radius: 10px; padding: 14px 18px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-float-icon { font-size: 24px; }
+    .hero-float-num { font-size: 18px; font-weight: 900; color: var(--dark); }
+    .hero-float-label { font-size: 10px; color: var(--gray); }
+
+    /* ══ LOGO BAR ══ */
+    .section-logos {
+      background: var(--dark); padding: 20px 24px; overflow: hidden;
+    }
+    .logos-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; gap: 40px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    }
+    .logo-item { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ══ PROBLEM NARRATIVE ══ */
+    .section-problem { padding: 88px 24px; }
+    .problem-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 440px; gap: 72px; align-items: start;
+    }
+    .problem-inner h2 {
+      font-size: clamp(26px, 3.5vw, 44px); font-weight: 900;
+      line-height: 1.1; letter-spacing: -1.2px; margin-bottom: 22px;
+    }
+    .problem-inner h2 em { font-style: italic; }
+    .problem-inner p { font-size: 14.5px; color: var(--gray); line-height: 1.85; margin-bottom: 16px; }
+    .problem-images { display: flex; flex-direction: column; gap: 14px; }
+    .problem-img {
+      border-radius: 10px; overflow: hidden; aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #2A1A0E, #4A2810); /* placeholder */
+      display: flex; align-items: center; justify-content: center; font-size: 40px;
+    }
+    .problem-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ══ KEY STATS ROW ══ */
+    .section-stats { padding: 0 24px 80px; }
+    .stats-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+    }
+    .stat-cell {
+      padding: 28px 20px; border-right: 1px solid var(--border);
+    }
+    .stat-cell:last-child { border: none; }
+    .stat-cell-num {
+      font-size: clamp(20px, 2.5vw, 30px); font-weight: 900;
+      letter-spacing: -1px; color: var(--dark); margin-bottom: 5px;
+    }
+    .stat-cell-desc { font-size: 12px; color: var(--gray); line-height: 1.5; }
+
+    /* ══ PRODUCT INTRO (ENGINEER IN POCKET) ══ */
+    .section-product { padding: 80px 24px; background: var(--cream); }
+    .product-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: 360px 1fr; gap: 72px; align-items: center;
+    }
+    .product-img {
+      border-radius: 12px; overflow: hidden;
+      background: linear-gradient(135deg, #1A2838, #2D4A6A);
+      aspect-ratio: 4/5;
+      display: flex; align-items: center; justify-content: center; font-size: 60px;
+    }
+    .product-content h2 {
+      font-size: clamp(24px, 3vw, 38px); font-weight: 900;
+      letter-spacing: -1px; line-height: 1.12; margin-bottom: 18px;
+    }
+    .product-content p { font-size: 14px; color: var(--gray); line-height: 1.8; margin-bottom: 24px; }
+    .product-features { display: flex; flex-direction: column; gap: 12px; }
+    .product-feature { display: flex; gap: 10px; font-size: 13.5px; }
+    .product-feature::before { content: '→'; color: var(--orange); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* ══ FOUR STEPS ══ */
+    .section-steps { padding: 88px 24px; }
+    .steps-inner { max-width: 1080px; margin: 0 auto; }
+    .steps-header { margin-bottom: 56px; }
+    .steps-header h2 {
+      font-size: clamp(24px, 3vw, 38px); font-weight: 900;
+      letter-spacing: -1px; line-height: 1.12;
+    }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .step-card { position: relative; }
+    .step-img {
+      width: 100%; aspect-ratio: 4/5; border-radius: 10px; overflow: hidden; margin-bottom: 16px;
+      background: linear-gradient(160deg, #1a1a1a, #333);
+      display: flex; align-items: center; justify-content: center; font-size: 40px;
+    }
+    .step-num {
+      position: absolute; top: 12px; left: 12px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--orange); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+    }
+    .step-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+    .step-card p { font-size: 12.5px; color: var(--gray); line-height: 1.6; }
+
+    /* ══ COMPUTER VISION (DARK) ══ */
+    .section-cv {
+      background: var(--dark); color: #fff; padding: 88px 24px;
+    }
+    .cv-inner { max-width: 1080px; margin: 0 auto; }
+    .cv-inner h2 {
+      font-size: clamp(28px, 4vw, 52px); font-weight: 900;
+      letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 20px; max-width: 700px;
+    }
+    .cv-inner > p { font-size: 14.5px; color: var(--gray-light); line-height: 1.8; max-width: 600px; margin-bottom: 52px; }
+    .cv-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 48px; }
+    .cv-tag {
+      background: var(--dark2); border: 1px solid var(--border-dark);
+      border-radius: 8px; padding: 14px; text-align: center;
+    }
+    .cv-tag-icon { font-size: 22px; margin-bottom: 8px; }
+    .cv-tag-label { font-size: 11px; font-weight: 600; color: var(--gray-light); }
+    .cv-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .cv-stat { border-top: 2px solid rgba(255,255,255,0.1); padding-top: 16px; }
+    .cv-stat-num { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+    .cv-stat-label { font-size: 11px; color: #64748B; line-height: 1.4; }
+
+    /* ══ TRIAGE REPORT FEATURES ══ */
+    .section-report { padding: 88px 24px; background: var(--off-white); }
+    .report-inner { max-width: 1080px; margin: 0 auto; }
+    .report-inner h2 {
+      font-size: clamp(24px, 3vw, 38px); font-weight: 900;
+      letter-spacing: -1px; text-align: center; margin-bottom: 52px;
+    }
+    .report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .report-feat {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+    }
+    .report-feat-icon { font-size: 24px; margin-bottom: 14px; }
+    .report-feat h4 { font-size: 14px; font-weight: 700; margin-bottom: 7px; }
+    .report-feat p { font-size: 12.5px; color: var(--gray); line-height: 1.65; }
+
+    /* ══ TECH STACK ══ */
+    .section-tech { padding: 88px 24px; }
+    .tech-inner { max-width: 1080px; margin: 0 auto; }
+    .tech-inner h2 {
+      font-size: clamp(22px, 3vw, 34px); font-weight: 900;
+      letter-spacing: -0.8px; margin-bottom: 10px;
+    }
+    .tech-inner .sub { color: var(--gray); font-size: 14px; margin-bottom: 48px; max-width: 560px; }
+    .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 36px; }
+    .tech-card {
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 26px;
+    }
+    .tech-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .tech-logo-icon { font-size: 22px; }
+    .tech-card-header h4 { font-size: 15px; font-weight: 700; }
+    .tech-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12.5px;
+    }
+    .tech-row:last-child { border: none; }
+    .tech-label { color: var(--gray); }
+    .tech-val { font-weight: 600; color: var(--dark); }
+    .tech-pill {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+      background: #DCFCE7; color: #166534;
+    }
+    .tech-pill.beta { background: #FEF9C3; color: #854D0E; }
+
+    /* ══ AFRICA BUILT / GLOBAL SCALE ══ */
+    .section-global {
+      padding: 88px 24px;
+      background: linear-gradient(to bottom, rgba(15,15,15,0.65), rgba(15,15,15,0.75)),
+                  url('https://images.unsplash.com/photo-1566438480900-0609be27a4be?w=1600&q=80') center/cover no-repeat;
+      color: #fff;
+    }
+    .global-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+    }
+    .global-inner h2 {
+      font-size: clamp(26px, 3.5vw, 44px); font-weight: 900;
+      letter-spacing: -1px; line-height: 1.1; margin-bottom: 18px;
+    }
+    .global-inner p { font-size: 14px; opacity: 0.8; line-height: 1.8; margin-bottom: 28px; }
+    .global-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .global-stat {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .global-stat-num { font-size: 26px; font-weight: 900; color: var(--orange); letter-spacing: -1px; margin-bottom: 4px; }
+    .global-stat-label { font-size: 11px; opacity: 0.65; }
+
+    /* ══ REAL USERS / TRACTION ══ */
+    .section-traction { padding: 88px 24px; background: var(--off-white); }
+    .traction-inner { max-width: 1080px; margin: 0 auto; }
+    .traction-inner h2 {
+      font-size: clamp(22px, 3vw, 36px); font-weight: 900;
+      letter-spacing: -0.8px; margin-bottom: 40px;
+    }
+    .traction-list { display: flex; flex-direction: column; gap: 0; }
+    .traction-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 13.5px;
+    }
+    .traction-row:last-child { border: none; }
+    .traction-item-name { font-weight: 600; }
+    .traction-item-desc { color: var(--gray); font-size: 12.5px; margin-top: 2px; }
+    .traction-val {
+      font-weight: 700; color: var(--orange); font-size: 14px; white-space: nowrap;
+    }
+
+    /* ══ ROADMAP ══ */
+    .section-roadmap { padding: 88px 24px; }
+    .roadmap-inner { max-width: 1080px; margin: 0 auto; }
+    .roadmap-inner h2 {
+      font-size: clamp(22px, 3vw, 36px); font-weight: 900;
+      letter-spacing: -0.8px; margin-bottom: 8px;
+    }
+    .roadmap-inner .sub { color: var(--gray); font-size: 14px; margin-bottom: 48px; }
+    .roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .roadmap-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+    .roadmap-quarter {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--orange); margin-bottom: 10px;
+    }
+    .roadmap-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .roadmap-card p { font-size: 12.5px; color: var(--gray); line-height: 1.65; margin-bottom: 16px; }
+    .roadmap-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .roadmap-list li { font-size: 12.5px; display: flex; gap: 8px; }
+    .roadmap-list li::before { content: '·'; color: var(--orange); font-size: 16px; line-height: 1; flex-shrink: 0; }
+
+    /* ══ TEAM ══ */
+    .section-team { padding: 88px 24px; background: var(--cream); }
+    .team-inner { max-width: 1080px; margin: 0 auto; }
+    .team-inner h2 {
+      font-size: clamp(22px, 3vw, 36px); font-weight: 900;
+      letter-spacing: -0.8px; margin-bottom: 8px;
+    }
+    .team-inner .sub { color: var(--gray); font-size: 14px; margin-bottom: 48px; }
+    .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: 680px; }
+    .team-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+    .team-photo {
+      width: 80px; height: 80px; border-radius: 50%; margin-bottom: 18px;
+      background-size: cover; background-position: center; overflow: hidden;
+      border: 3px solid var(--border);
+    }
+    .team-name { font-size: 16px; font-weight: 800; margin-bottom: 3px; }
+    .team-role { font-size: 12px; color: var(--gray); margin-bottom: 12px; }
+    .team-bio { font-size: 12.5px; color: var(--gray); line-height: 1.65; margin-bottom: 18px; }
+    .team-social-links { display: flex; flex-direction: column; gap: 8px; }
+    .team-social-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      font-size: 12px; font-weight: 600; color: var(--dark);
+      background: var(--off-white); border: 1.5px solid var(--border);
+      padding: 7px 14px; border-radius: 7px; text-decoration: none;
+      transition: all 0.2s; width: 100%;
+    }
+    .team-social-btn:hover { background: var(--orange-pale); border-color: var(--orange); color: var(--orange-dark); }
+    .team-social-btn svg { flex-shrink: 0; }
+
+    /* ══ FINAL CTA ══ */
+    .section-cta {
+      background: var(--dark); color: #fff; padding: 88px 24px;
+    }
+    .cta-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .cta-inner h2 {
+      font-size: clamp(30px, 4.5vw, 58px); font-weight: 900;
+      letter-spacing: -2px; line-height: 1.05; margin-bottom: 10px;
+    }
+    .cta-inner h2 em { font-style: italic; color: var(--orange); display: block; }
+    .cta-inner .sub { font-size: 14.5px; opacity: 0.7; line-height: 1.75; margin-bottom: 28px; }
+    .cta-contact-info { font-size: 13px; opacity: 0.6; line-height: 1.9; }
+    .cta-contact-info a { color: inherit; transition: opacity 0.2s; }
+    .cta-contact-info a:hover { opacity: 1; }
+    .cta-form-card {
+      background: rgba(255,255,255,0.06); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 32px;
+    }
+    .cta-form-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 22px; }
+    .cta-form { display: flex; flex-direction: column; gap: 12px; }
+    .cta-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cta-input {
+      padding: 12px 16px; background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.14); border-radius: 7px;
+      color: #fff; font-size: 14px; font-family: var(--font); outline: none; transition: border-color 0.2s;
+    }
+    .cta-input::placeholder { color: rgba(255,255,255,0.35); }
+    .cta-input:focus { border-color: var(--orange); }
+    .cta-select { padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1.5px solid rgba(255,255,255,0.14); border-radius: 7px; color: #fff; font-size: 14px; font-family: var(--font); outline: none; }
+    .cta-submit { width: 100%; padding: 14px; background: var(--orange); color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: var(--font); transition: all 0.2s; }
+    .cta-submit:hover { background: var(--orange-dark); }
+
+    /* ══ FOOTER ══ */
+    footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.07); padding: 56px 24px 32px; }
+    .footer-top {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+      padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 32px;
+    }
+    .footer-brand .logo { color: #fff; font-size: 17px; margin-bottom: 12px; }
+    .footer-brand p { font-size: 13px; color: #4B5563; line-height: 1.7; margin-bottom: 10px; }
+    .footer-contact-info { font-size: 12.5px; color: #4B5563; line-height: 1.9; margin-bottom: 18px; }
+    .footer-contact-info a { color: #4B5563; transition: color 0.2s; }
+    .footer-contact-info a:hover { color: #fff; }
+    .footer-social { display: flex; gap: 10px; }
+    .footer-social-btn {
+      width: 34px; height: 34px; border-radius: 7px; background: var(--dark2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; cursor: pointer; transition: background 0.2s;
+      color: #fff; text-decoration: none; font-weight: 700;
+    }
+    .footer-social-btn:hover { background: var(--orange); }
+    .footer-col h5 { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: 13px; color: #4B5563; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: #374151; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom a { color: #374151; transition: color 0.2s; }
+    .footer-bottom a:hover { color: #fff; }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 960px) {
+      .hero-inner, .problem-inner, .product-inner, .global-inner, .cta-inner { grid-template-columns: 1fr; }
+      .hero-visual, .problem-images { display: none; }
+      .cv-grid { grid-template-columns: repeat(3, 1fr); }
+      .cv-stats, .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(2) { border-right: none; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .team-grid { max-width: 100%; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .stats-inner, .cv-grid, .cv-stats, .steps-grid, .report-grid, .roadmap-grid { grid-template-columns: 1fr; }
+      .stat-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-cell:last-child { border: none; }
+      .footer-top { grid-template-columns: 1fr; }
+      .cta-form-row { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; max-width: 340px; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      BuildScan AI
+    </div>
+    <ul class="nav-links">
+      <li><a href="#product">Product</a></li>
+      <li><a href="#technology">Technology</a></li>
+      <li><a href="#traction">Traction</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-ctas">
+      <a href="#contact" class="btn btn-outline">Log In</a>
+      <a href="#contact" class="btn btn-orange">Get Access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════ HERO ════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow eyebrow-orange">🏗 Structural intelligence · Africa</span>
+      <h1>Know before<br />you <em>buy.</em></h1>
+      <p class="hero-sub">BuildScan AI gives any homebuyer, property investor, or first-time buyer access to structural intelligence — like a professional building inspector in their pocket. From driveway snapshot to signed report in 30 minutes.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-dark btn-lg">Get Early Access</a>
+        <a href="#product" class="btn btn-outline btn-lg">See How It Works</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">₦5,000</div>
+          <div class="hero-stat-label">Per scan · vs ₦150k+ surveyor</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">10 min</div>
+          <div class="hero-stat-label">Average report turnaround</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">8 zones</div>
+          <div class="hero-stat-label">Structural analysis areas</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="report-card">
+        <div class="report-card-header">
+          <div class="report-card-title">BuildScan Report<br />3 Admiralty Way, Lekki</div>
+          <div class="report-card-score">72</div>
+        </div>
+        <div class="report-row"><span class="report-label">Foundation</span><span class="report-badge badge-red">High Risk</span></div>
+        <div class="report-row"><span class="report-label">Roof Structure</span><span class="report-badge badge-yellow">Monitor</span></div>
+        <div class="report-row"><span class="report-label">Wall Integrity</span><span class="report-badge badge-green">Good</span></div>
+        <div class="report-row"><span class="report-label">Drainage</span><span class="report-badge badge-red">Immediate Action</span></div>
+        <div class="report-row"><span class="report-label">Electrical</span><span class="report-badge badge-yellow">Review</span></div>
+        <div class="report-row"><span class="report-label">Plumbing</span><span class="report-badge badge-green">Good</span></div>
+        <div style="margin-top:16px">
+          <button style="width:100%;padding:10px;background:var(--orange);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer">Download Full Report →</button>
+        </div>
+      </div>
+      <div class="hero-float">
+        <div class="hero-float-icon">🏠</div>
+        <div>
+          <div class="hero-float-num">₦2M–₦15M</div>
+          <div class="hero-float-label">Avg. defect cost caught per scan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ LOGO BAR ════ -->
+<div class="section-logos">
+  <div class="logos-inner">
+    <div class="logo-item">AWS Partner</div>
+    <div class="logo-item">NVIDIA Inception</div>
+    <div class="logo-item">Lagos State Govt</div>
+    <div class="logo-item">RICS Aligned</div>
+    <div class="logo-item">PropertyPro</div>
+    <div class="logo-item">Stanbic IBTC</div>
+  </div>
+</div>
+
+<!-- ════ PROBLEM ════ -->
+<section class="section-problem">
+  <div class="problem-inner">
+    <div>
+      <span class="eyebrow">01 / The Problem</span>
+      <h2>The largest purchase of your life — made <em>blind.</em></h2>
+      <p>In Nigeria, a first-time buyer pays ₦30M–₦150M for a property they've seen twice. No structural survey. No defect report. No professional inspection of the building they're about to commit their life savings to — because a qualified structural surveyor costs ₦150,000+ and weeks of waiting.</p>
+      <p>They rely instead on the developer's word, a quick walk-through with a relative, and hope. Three years later, they're dealing with a cracked foundation, failed drainage, or a roof that can't survive a rainy season. The purchase of a lifetime becomes the problem of a lifetime.</p>
+      <p>This is not a knowledge problem. It's an access problem. And BuildScan AI solves it.</p>
+      <div style="margin-top:32px">
+        <a href="#product" class="btn btn-dark">See the Solution →</a>
+      </div>
+    </div>
+    <div class="problem-images">
+      <div class="problem-img" style="background:linear-gradient(135deg,#2D1A0A,#5A3010)">
+        <span>🏗</span>
+      </div>
+      <div class="problem-img" style="background:linear-gradient(135deg,#1A1A2E,#2D2D4A)">
+        <span>🔍</span>
+      </div>
+      <div class="problem-img" style="background:linear-gradient(135deg,#0A2A1A,#1A4A2A)">
+        <span>📱</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ KEY STATS ════ -->
+<section class="section-stats">
+  <div class="stats-inner">
+    <div class="stat-cell">
+      <div class="stat-cell-num">₦2M–₦15M</div>
+      <div class="stat-cell-desc">Average value of structural defects caught per property scan in our pilot</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell-num">£5,750</div>
+      <div class="stat-cell-desc">UK equivalent average defect cost per residential transaction (RICS)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell-num">$119</div>
+      <div class="stat-cell-desc">Average cost of a BuildScan report vs. $800+ for a traditional survey</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell-num">1 in 3</div>
+      <div class="stat-cell-desc">Nigerian homebuyers discover major structural defects only after purchase</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PRODUCT: ENGINEER IN YOUR POCKET ════ -->
+<section class="section-product" id="product">
+  <div class="product-inner">
+    <div class="product-img" style="background:linear-gradient(160deg,#1C2B3A,#2D4A6A)">
+      <span style="font-size:72px">📱</span>
+    </div>
+    <div class="product-content">
+      <span class="eyebrow">02 / Product</span>
+      <h2>A structural engineer, in your pocket.</h2>
+      <p>BuildScan AI uses computer vision trained on Nigerian building stock to identify structural defects, grade their severity, and produce a professional triage report — in under 10 minutes, from photos you take on your phone.</p>
+      <div class="product-features">
+        <div class="product-feature">No structural engineering background required — anyone can use it</div>
+        <div class="product-feature">Structured report format accepted by mortgage providers</div>
+        <div class="product-feature">Linked to a verified network of licensed structural engineers for escalation</div>
+        <div class="product-feature">Available in English, Yoruba, Igbo, and Hausa</div>
+        <div class="product-feature">Works in low-bandwidth environments — designed for Nigerian connectivity</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOUR STEPS ════ -->
+<section class="section-steps">
+  <div class="steps-inner">
+    <div class="steps-header">
+      <span class="eyebrow">03 / How It Works</span>
+      <h2>From driveway snapshot to<br />signed report — in four steps.</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-img" style="background:linear-gradient(160deg,#1a1208,#3a2812)">
+          <span>📸</span>
+          <div class="step-num">1</div>
+        </div>
+        <h4>Capture</h4>
+        <p>Walk the property and take photos of key structural areas — foundations, walls, roof, drainage, and fixtures. The BuildScan app guides you on exactly where to look.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-img" style="background:linear-gradient(160deg,#0a1020,#1a2038)">
+          <span>🧠</span>
+          <div class="step-num">2</div>
+        </div>
+        <h4>Analyse</h4>
+        <p>Our computer vision model — trained on 200,000+ annotated images of Nigerian and West African building defects — analyses every photo against 47 defect categories.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-img" style="background:linear-gradient(160deg,#0a1a0a,#1a3820)">
+          <span>📋</span>
+          <div class="step-num">3</div>
+        </div>
+        <h4>Report</h4>
+        <p>A structured triage report is generated with defect categories, severity ratings, cost estimates, and recommended actions — ready in under 10 minutes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-img" style="background:linear-gradient(160deg,#201008,#402018)">
+          <span>✅</span>
+          <div class="step-num">4</div>
+        </div>
+        <h4>Escalate</h4>
+        <p>For high-severity findings, we connect you to a verified, licensed structural engineer within 24 hours — for a full professional inspection if needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ COMPUTER VISION ════ -->
+<section class="section-cv">
+  <div class="cv-inner">
+    <span class="eyebrow" style="color:rgba(255,255,255,0.4)">04 / Technology</span>
+    <h2>Computer vision,<br />trained on the buildings<br />people actually live in.</h2>
+    <p>Our CV model isn't trained on European or American building stock. It's trained on Nigerian reinforced concrete, hollow block, and post-tensioned slab construction — the buildings your customers actually buy.</p>
+    <div class="cv-grid">
+      <div class="cv-tag"><div class="cv-tag-icon">🏚</div><div class="cv-tag-label">Cracks</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">💧</div><div class="cv-tag-label">Damp</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">🏗</div><div class="cv-tag-label">Settlement</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">🔩</div><div class="cv-tag-label">Rebar Exposure</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">🌧</div><div class="cv-tag-label">Drainage</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">🧱</div><div class="cv-tag-label">Spalling</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">🪟</div><div class="cv-tag-label">Lintel Failure</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">⚡</div><div class="cv-tag-label">Electrical</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">🔧</div><div class="cv-tag-label">Plumbing</div></div>
+      <div class="cv-tag"><div class="cv-tag-icon">🏠</div><div class="cv-tag-label">Roofing</div></div>
+    </div>
+    <div class="cv-stats">
+      <div class="cv-stat"><div class="cv-stat-num">200k+</div><div class="cv-stat-label">Annotated building images in training dataset</div></div>
+      <div class="cv-stat"><div class="cv-stat-num">47</div><div class="cv-stat-label">Defect categories detected by the model</div></div>
+      <div class="cv-stat"><div class="cv-stat-num">91.4%</div><div class="cv-stat-label">Model accuracy on held-out Nigerian test set</div></div>
+      <div class="cv-stat"><div class="cv-stat-num">&lt;12s</div><div class="cv-stat-label">Inference time per image on GPU inference server</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TRIAGE REPORT FEATURES ════ -->
+<section class="section-report">
+  <div class="report-inner">
+    <h2>Everything a triage report<br />needs. Nothing it doesn't.</h2>
+    <div class="report-grid">
+      <div class="report-feat">
+        <div class="report-feat-icon">📐</div>
+        <h4>AI-guided capture</h4>
+        <p>In-app overlays guide non-experts to capture every critical zone — foundations, lintels, DPC, roof junctions, and drainage. No missed areas.</p>
+      </div>
+      <div class="report-feat">
+        <div class="report-feat-icon">📊</div>
+        <h4>Risk Score 0–100</h4>
+        <p>A single overall risk score gives buyers and agents an instant read. Detailed per-category scores underpin every recommendation in the report.</p>
+      </div>
+      <div class="report-feat">
+        <div class="report-feat-icon">💰</div>
+        <h4>Annotated cost / PDF</h4>
+        <p>Every defect comes with a localised cost estimate range in Naira — so buyers know exactly what they're negotiating on before they sign.</p>
+      </div>
+      <div class="report-feat">
+        <div class="report-feat-icon">🔗</div>
+        <h4>Engineer escalation</h4>
+        <p>For high-risk findings, one tap connects the buyer to a verified COREN-registered structural engineer for a full inspection within 24 hours.</p>
+      </div>
+      <div class="report-feat">
+        <div class="report-feat-icon">🌍</div>
+        <h4>Localised Speed King</h4>
+        <p>Reports are calibrated for Nigerian building regulations, FMBN mortgage requirements, and NHF insurance standards — not exported from a UK template.</p>
+      </div>
+      <div class="report-feat">
+        <div class="report-feat-icon">📱</div>
+        <h4>Diagnosis Notes</h4>
+        <p>Every defect includes a plain-language explanation of what was found, why it matters, and what should happen next — no surveyor jargon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TECH STACK ════ -->
+<section class="section-tech" id="technology">
+  <div class="tech-inner">
+    <span class="eyebrow">05 / Infrastructure</span>
+    <h2>Built on AWS. Accelerated by NVIDIA.</h2>
+    <p class="sub">Enterprise-grade cloud infrastructure and GPU-accelerated computer vision — engineered for speed, reliability, and Nigerian connectivity conditions.</p>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-card-header"><span class="tech-logo-icon">☁️</span><h4>Amazon Web Services</h4></div>
+        <div class="tech-row"><span class="tech-label">Amazon EC2 (GPU)</span><span class="tech-val">Model training &amp; inference</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">Amazon SageMaker</span><span class="tech-val">CV pipeline &amp; deployment</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">AWS Lambda / ECS</span><span class="tech-val">Serverless report generation</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">Amazon S3 / RDS</span><span class="tech-val">Image storage &amp; property database</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">CloudFront</span><span class="tech-val">Low-latency global CDN</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">Amazon Rekognition</span><span class="tech-val">Pre-processing &amp; labelling assist</span><span class="tech-pill beta">Beta</span></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-header"><span class="tech-logo-icon">⚡</span><h4>NVIDIA AI Platform</h4></div>
+        <div class="tech-row"><span class="tech-label">CUDA</span><span class="tech-val">GPU-accelerated model training</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">TensorRT</span><span class="tech-val">Optimised inference (&lt;12s/image)</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">Triton Server</span><span class="tech-val">Scalable concurrent model serving</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">RAPIDS</span><span class="tech-val">GPU data analytics for defect patterns</span><span class="tech-pill">Live</span></div>
+        <div class="tech-row"><span class="tech-label">NVIDIA Jetson</span><span class="tech-val">Offline inference for field use</span><span class="tech-pill beta">Roadmap</span></div>
+        <div style="margin-top:18px;display:flex;gap:24px">
+          <div><div style="font-size:20px;font-weight:900;color:var(--orange)">91.4%</div><div style="font-size:10px;color:var(--gray)">Model accuracy</div></div>
+          <div><div style="font-size:20px;font-weight:900;color:var(--orange)">&lt;12s</div><div style="font-size:10px;color:var(--gray)">Per image inference</div></div>
+          <div><div style="font-size:20px;font-weight:900;color:var(--orange)">99.9%</div><div style="font-size:10px;color:var(--gray)">Platform uptime</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ AFRICA BUILT / GLOBAL ════ -->
+<section class="section-global">
+  <div class="global-inner">
+    <div>
+      <span class="eyebrow" style="color:rgba(255,255,255,0.5)">06 / Market</span>
+      <h2>Africa-built.<br />Globally deployable.</h2>
+      <p>We're starting in Nigeria — the continent's largest property market — before expanding to Ghana, Kenya, and South Africa. The same structural intelligence engine adapts to each country's building standards and construction norms.</p>
+      <a href="#contact" class="btn btn-orange btn-lg" style="margin-top:8px">Talk to Us About Expansion →</a>
+    </div>
+    <div class="global-stats">
+      <div class="global-stat"><div class="global-stat-num">₦6.2T</div><div class="global-stat-label">Nigerian residential property market value</div></div>
+      <div class="global-stat"><div class="global-stat-num">1.25M</div><div class="global-stat-label">Residential transactions per year in Nigeria</div></div>
+      <div class="global-stat"><div class="global-stat-num">4</div><div class="global-stat-label">African markets in 18-month expansion plan</div></div>
+      <div class="global-stat"><div class="global-stat-num">$40B+</div><div class="global-stat-label">Africa-wide addressable property inspection market</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TRACTION ════ -->
+<section class="section-traction" id="traction">
+  <div class="traction-inner">
+    <span class="eyebrow eyebrow-orange">07 / Real users. Real photos. Real reports.</span>
+    <h2>Early validation from<br />the market that matters.</h2>
+    <div class="traction-list">
+      <div class="traction-row">
+        <div>
+          <div class="traction-item-name">MVP to beta deployment — Nigeria pilot</div>
+          <div class="traction-item-desc">Built, tested, and deployed to first 50 users in Lagos within 90 days of founding</div>
+        </div>
+        <div class="traction-val">Done ✓</div>
+      </div>
+      <div class="traction-row">
+        <div>
+          <div class="traction-item-name">30 households across Lagos and Abuja</div>
+          <div class="traction-item-desc">Defects found in 27 of 30 properties that owners were unaware of</div>
+        </div>
+        <div class="traction-val">₦2M avg. defect value</div>
+      </div>
+      <div class="traction-row">
+        <div>
+          <div class="traction-item-name">12 self-declared structural engineers under 23</div>
+          <div class="traction-item-desc">Using BuildScan AI as a first-pass screening tool in their practice</div>
+        </div>
+        <div class="traction-val">91.4% accuracy confirmed</div>
+      </div>
+      <div class="traction-row">
+        <div>
+          <div class="traction-item-name">Diasporan buyers across 18 signing up weekly</div>
+          <div class="traction-item-desc">Nigerians in UK, US, and Canada buying remotely — highest pain point segment</div>
+        </div>
+        <div class="traction-val">Organic growth</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ROADMAP ════ -->
+<section class="section-roadmap" id="roadmap">
+  <div class="roadmap-inner">
+    <span class="eyebrow">08 / Roadmap</span>
+    <h2>The next 18 months.</h2>
+    <p class="sub">A disciplined, three-phase expansion from Lagos to the continent.</p>
+    <div class="roadmap-grid">
+      <div class="roadmap-card">
+        <div class="roadmap-quarter">Now → Q2 2025</div>
+        <h4>MVP to commercial launch</h4>
+        <p>Full consumer product launch in Lagos and Abuja. Estate agents, mortgage brokers, and diaspora buyers as first commercial customers.</p>
+        <ul class="roadmap-list">
+          <li>Consumer app on iOS &amp; Android</li>
+          <li>10 verified engineer partnerships</li>
+          <li>Estate agency white-label product</li>
+          <li>FMBN mortgage report format approval</li>
+        </ul>
+      </div>
+      <div class="roadmap-card">
+        <div class="roadmap-quarter">Q3 2025 → Q4 2025</div>
+        <h4>Nigeria national roll-up &amp; first B2B</h4>
+        <p>Expand to all major Nigerian cities. Launch commercial B2B product for mortgage lenders, insurers, and large estate agency networks.</p>
+        <ul class="roadmap-list">
+          <li>All 36 states coverage</li>
+          <li>Stanbic IBTC mortgage integration</li>
+          <li>NHF insurance report partnership</li>
+          <li>1,000+ reports per month</li>
+        </ul>
+      </div>
+      <div class="roadmap-card">
+        <div class="roadmap-quarter">2026 · Scale</div>
+        <h4>Single-integration East African entry</h4>
+        <p>Adapt the model for Kenyan, Ghanaian, and South African building stock. License the engine to international PropTech platforms.</p>
+        <ul class="roadmap-list">
+          <li>Ghana &amp; Kenya model localisation</li>
+          <li>API licensing to PropTech platforms</li>
+          <li>Government building compliance module</li>
+          <li>Series A targeting $8M–$12M</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TEAM ════ -->
+<section class="section-team" id="team">
+  <div class="team-inner">
+    <span class="eyebrow">09 / The People</span>
+    <h2>The people behind the model.</h2>
+    <p class="sub">Built by people who understand both Nigerian construction and machine learning — a rare combination that makes this possible.</p>
+    <div class="team-grid">
+      <!-- CEO CARD -->
+      <div class="team-card">
+        <div class="team-photo" style="background-image:url('https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=200&q=80')"></div>
+        <div class="team-name">Nwaneri Chianugo Christony</div>
+        <div class="team-role">CEO &amp; Co-Founder</div>
+        <div class="team-bio">Visionary behind BuildScan AI. Combines deep knowledge of Nigerian real estate, construction defect patterns, and product leadership to build tools that protect buyers before they sign.</div>
+        <div class="team-social-links">
+          <a href="https://www.linkedin.com/in/chris-nwaneri-565728311" target="_blank" rel="noopener" class="team-social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://x.com/KrisSav06161781" target="_blank" rel="noopener" class="team-social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Twitter / X
+          </a>
+          <a href="https://www.facebook.com/share/18o6zWAGmU/" target="_blank" rel="noopener" class="team-social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+      <!-- CTO CARD -->
+      <div class="team-card">
+        <div class="team-photo" style="background-image:url('https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=200&q=80')"></div>
+        <div class="team-name">Dr. Emeka Okafor</div>
+        <div class="team-role">CTO &amp; Co-Founder</div>
+        <div class="team-bio">PhD Computer Vision, University of Cape Town. Led structural defect detection research at CSIR South Africa for 6 years. Built the model architecture that powers BuildScan's 91.4% accuracy.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FINAL CTA ════ -->
+<section class="section-cta" id="contact">
+  <div class="cta-inner">
+    <div>
+      <span class="eyebrow" style="color:rgba(255,255,255,0.4)">10 / Get Involved</span>
+      <h2>Buy the house.<br /><em>Not the problem.</em></h2>
+      <p class="sub">Whether you're a homebuyer, estate agent, mortgage lender, or investor — we're ready to talk. BuildScan AI is launching commercially in Q2 2025.</p>
+      <div class="cta-contact-info">
+        📍 Block D2, FCE Staff Qtrs, Okene, Kogi State, Nigeria<br />
+        📞 <a href="tel:+2348036341861">08036341861</a><br />
+        ✉️ <a href="mailto:hello@buildscan.ai">hello@buildscan.ai</a>
+      </div>
+    </div>
+    <div class="cta-form-card">
+      <h3>Send us a message</h3>
+      <div class="cta-form">
+        <div class="cta-form-row">
+          <input class="cta-input" type="text" placeholder="First name" />
+          <input class="cta-input" type="text" placeholder="Last name" />
+        </div>
+        <input class="cta-input" type="email" placeholder="Email address" />
+        <input class="cta-input" type="tel" placeholder="Phone number" />
+        <select class="cta-select">
+          <option value="">I am a…</option>
+          <option>Homebuyer / Property investor</option>
+          <option>Estate agent / Developer</option>
+          <option>Mortgage lender / Bank</option>
+          <option>Insurance provider</option>
+          <option>Structural engineer / Surveyor</option>
+          <option>Investor</option>
+          <option>Press / Researcher</option>
+        </select>
+        <textarea class="cta-input" rows="3" placeholder="Your message…" style="resize:none"></textarea>
+        <button class="cta-submit" onclick="handleSubmit(this)">Send Message →</button>
+        <p style="font-size:11px;text-align:center;opacity:0.4">We respond within 48 hours. No spam.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo"><span class="logo-dot"></span>BuildScan AI</div>
+      <p>Know before you buy. AI-powered structural triage for every Nigerian homebuyer, property investor, and mortgage lender.</p>
+      <div class="footer-contact-info">
+        📍 Block D2, FCE Staff Qtrs, Okene, Kogi State.<br />
+        📞 <a href="tel:+2348036341861">08036341861</a><br />
+        ✉️ <a href="mailto:hello@buildscan.ai">hello@buildscan.ai</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://x.com/KrisSav06161781" target="_blank" rel="noopener" class="footer-social-btn" title="Twitter / X">𝕏</a>
+        <a href="https://www.linkedin.com/in/chris-nwaneri-565728311" target="_blank" rel="noopener" class="footer-social-btn" title="LinkedIn">in</a>
+        <a href="https://www.facebook.com/share/18o6zWAGmU/" target="_blank" rel="noopener" class="footer-social-btn" title="Facebook">f</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#product">How It Works</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#traction">Traction</a></li>
+        <li><a href="#contact">Get Access</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">NDPR Compliance</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2024 BuildScan AI · Nwaneri Chianugo Christony. All rights reserved.</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="https://www.linkedin.com/in/chris-nwaneri-565728311" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://x.com/KrisSav06161781" target="_blank" rel="noopener">Twitter / X</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Form submit */
+  function handleSubmit(btn) {
+    btn.textContent = '✓ Message sent! We\'ll be in touch soon.';
+    btn.style.background = '#16A34A';
+    btn.disabled = true;
+  }
+
+  /* Scroll reveal */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.07 });
+
+  document.querySelectorAll(
+    '.stat-cell, .step-card, .cv-tag, .cv-stat, .report-feat, ' +
+    '.tech-card, .global-stat, .traction-row, .roadmap-card, .team-card'
+  ).forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
